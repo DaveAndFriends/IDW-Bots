@@ -10,6 +10,7 @@ MIN_SUB_STMT_LEN = 70
 RATIO_THRESH = 85
 MIN_AGE_SECS = 1200 #1200 #20 minutes
 REPLY_STMT = "This post was removed because it appears to be missing a submission statement.\n\n"+"Submission statements are required\n\n"+"* on all non-text posts\n"+"* to be a top-level comment from OP\n"+'* to start with the text "Submission statement"\n'+'* to be at least 70 characters in length (excluding "Submission statement")\n'+'* to be posted within 20 minutes of post creation\n\n'+'Once you have posted your submission statement, it will be approved by the moderators.\n\n'+'*I am a bot, and this action was performed automatically. Please* [*contact the moderators of this subreddit*](https://www.reddit.com/message/compose/?to=/r/IntellectualDarkWeb) *if you have any questions or concerns.*'
+DO_IT = False
 
 # Create the Reddit instance and log in
 reddit = praw.Reddit('bot1')
@@ -25,14 +26,14 @@ else:
         posts_replied_to = posts_replied_to.split("\n")
         posts_replied_to = list(filter(None, posts_replied_to))
 
-# Pull the hottest 10 entries from a subreddit of your choosing
+#connect to a subreddit and grab the posts in "new"
 subreddit = reddit.subreddit('IntellectualDarkWeb')
 curTime = time.time()
 for submission in subreddit.new():
     print(submission.title)
     age_in_secs = curTime - submission.created_utc
     # Make sure you didn't already reply to this post and that the post is not text-only and the post is 20 minutes old.
-    if submission.id not in posts_replied_to and submission.is_self == False and age_in_secs >= MIN_AGE_SECS and submission.author.name == "DaveAndFriends":
+    if submission.id not in posts_replied_to and submission.is_self == False and age_in_secs >= MIN_AGE_SECS:
         # loop through top level comments
         hasSubStmt = False 
         for comment in submission.comments:
@@ -48,12 +49,15 @@ for submission in subreddit.new():
                         if max(fuzz.ratio(SUB_STMT_TXT,cmnt4Check.lower()),fuzz.token_sort_ratio(SUB_STMT_TXT,cmnt4Check)) >= RATIO_THRESH:
                             hasSubStmt = True
                             break
+        #if we didn't find a submission statement
         if not hasSubStmt:
             print("Replied to " + submission.title + " at " + submission.shortlink)
-            addSubStmtCmt = submission.reply(REPLY_STMT)
-            addSubStmtCmt.mod.distinguish(how='yes', sticky=False)
-            submission.mod.remove()
-            posts_replied_to.append(submission.id)
+            #for debeugging
+            if DO_IT:
+                addSubStmtCmt = submission.reply(REPLY_STMT)
+                addSubStmtCmt.mod.distinguish(how='yes', sticky=False)
+                submission.mod.remove()
+                posts_replied_to.append(submission.id)
 
 # Write updated list to file
 with open("posts_replied_to.txt", "w") as f:

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IDW_bot", "PythonApplication1\IDW_bot.pyproj", "{E3544B7B-2E6D-410A-A747-CBB376AB0238}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "IDW_bot", "IDWBot\IDW_bot.pyproj", "{E3544B7B-2E6D-410A-A747-CBB376AB0238}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -5,6 +5,8 @@
 
 #config files
 praw.ini
+FuzzyWuzzy_test.py
+post_replied_to.txt
 
 # User-specific files
 *.rsuser
