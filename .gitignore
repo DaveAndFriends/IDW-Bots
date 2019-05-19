@@ -6,7 +6,7 @@
 #config files
 praw.ini
 FuzzyWuzzy_test.py
-post_replied_to.txt
+posts_replied_to.txt
 *.sln
 *.pyproj
 

@@ -40,7 +40,7 @@ for submission in subreddit.new():
             # if there is a top level comment from the submitter
             if comment.author == submission.author:
                 #if the comment meets length requirements
-                if len(comment.body)>=MIN_SUB_STMT_LEN:
+                if (len(comment.body) - len(SUB_STMT_TXT)) >=MIN_SUB_STMT_LEN:
                     splitComment = comment.body.split(" ")
                     #if the comment has at least two words
                     if len(splitComment) >= 2:
